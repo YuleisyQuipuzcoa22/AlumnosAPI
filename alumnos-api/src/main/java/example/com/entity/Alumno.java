@@ -17,7 +17,7 @@ public class Alumno {
     private String codigo;
     private String grupo;
 
-    //Constructor vacío
+    // Constructor vacío
     public Alumno() {
     }
 
@@ -53,11 +53,11 @@ public class Alumno {
         this.apellidos = apellidos;
     }
 
-    public String getCodigoEstudiante() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigoEstudiante(String codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
