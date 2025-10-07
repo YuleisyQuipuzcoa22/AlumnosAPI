@@ -20,16 +20,30 @@ public class AlumnoService {
     }
 
     public Alumno getAlumnoById(int id) {
-        return alumnoRepository.findById(id);
+        Alumno alumno = alumnoRepository.findById(id);
+        if (alumno == null) {
+            throw new RuntimeException("Alumno con ID " + id + " no existe");
+        }
+        return alumno;
     }
 
     @Transactional
     public Alumno createAlumno(Alumno alumno) {
+        if (alumno.getNombres() == null || alumno.getNombres().isBlank()) {
+            throw new RuntimeException("El nombre del alumno es obligatorio");
+        }
+        if (alumno.getCodigo() == null || alumno.getCodigo().isBlank()) {
+            throw new RuntimeException("El código del alumno es obligatorio");
+        }
         return alumnoRepository.save(alumno);
     }
 
     @Transactional
     public void deleteAlumno(int id) {
+        Alumno alumno = alumnoRepository.findById(id);
+        if (alumno == null) {
+            throw new RuntimeException("Alumno con ID " + id + " no existe");
+        }
         alumnoRepository.deleteById(id);
     }
 }
