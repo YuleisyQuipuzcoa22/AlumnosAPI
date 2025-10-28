@@ -1,34 +1,35 @@
-package example.com.entity;
+package example.com.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "alumno")
 public class Alumno {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nombres;
     private String apellidos;
     private String codigo;
-    private String grupo;
 
-    // Constructor vacío
+    @ManyToOne
+    @JoinColumn(name = "grupo_id")
+    @JsonBackReference
+    private Grupo grupo;
+
     public Alumno() {
     }
 
-    public Alumno(String nombres, String apellidos, String codigo, String grupo) {
+    public Alumno(String nombres, String apellidos, String codigo, Grupo grupo) {
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.codigo = codigo;
         this.grupo = grupo;
     }
 
-    // Gets y setters
     public int getId() {
         return id;
     }
@@ -61,12 +62,11 @@ public class Alumno {
         this.codigo = codigo;
     }
 
-    public String getGrupo() {
+    public Grupo getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(String grupo) {
+    public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
     }
-
 }
