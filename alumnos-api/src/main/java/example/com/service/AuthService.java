@@ -10,15 +10,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import example.com.dto.AuthRequest;
-import example.com.dto.AuthResponse;
+import example.com.dto.AuthRequestDTO;
+import example.com.dto.AuthResponseDTO;
 import example.com.model.Usuario;
 import example.com.repository.UsuarioRepository;
 import example.com.security.JwtUtil;
 import example.com.utils.JSendResponse;
 
 @Service
-public class AuthService implements UserDetailsService{
+public class AuthService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -40,7 +40,7 @@ public class AuthService implements UserDetailsService{
     }
 
     // Login
-    public JSendResponse<AuthResponse> login(AuthRequest request) {
+    public JSendResponse<AuthResponseDTO> login(AuthRequestDTO request) {
         Optional<Usuario> optUsuario = usuarioRepository.findByEmail(request.getEmail());
         if (optUsuario.isEmpty()) {
             return JSendResponse.fail("Credenciales inválidas");
@@ -52,7 +52,7 @@ public class AuthService implements UserDetailsService{
         }
 
         String token = jwtUtil.generarToken(usuario.getEmail());
-        return JSendResponse.success(new AuthResponse(token), "Login exitoso");
+        return JSendResponse.success(new AuthResponseDTO(token), "Login exitoso");
     }
 
     // UserDetailsService (para Spring Security)
