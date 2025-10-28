@@ -34,7 +34,7 @@ public class AuthService implements UserDetailsService {
         if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()) {
             return JSendResponse.fail("El email ya está registrado");
         }
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));//encriptandoo
         Usuario guardado = usuarioRepository.save(usuario);
         return JSendResponse.success(guardado, "Usuario registrado correctamente");
     }
