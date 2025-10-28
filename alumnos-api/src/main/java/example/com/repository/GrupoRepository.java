@@ -2,9 +2,11 @@ package example.com.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import example.com.model.Alumno;
+
+import example.com.model.Grupo;
 
 @Repository
-public interface AlumnoRepository extends JpaRepository<Alumno, Integer> {
-    
+public interface GrupoRepository extends JpaRepository<Grupo, Integer> {
+    boolean existsByNombre(String nombre);
+
 }
