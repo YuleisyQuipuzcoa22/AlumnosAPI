@@ -33,7 +33,7 @@ public class JwtUtil {
 
     public String obtenerEmailDeToken(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
+                .setSigningKey(getSigningKey()) // usa la misma clave para validar
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
