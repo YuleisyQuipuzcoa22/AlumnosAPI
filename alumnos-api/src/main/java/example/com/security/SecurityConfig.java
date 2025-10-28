@@ -25,10 +25,18 @@ public class SecurityConfig {
                         .requestMatchers("api/v1/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((request, response, authException) -> response
-                                .sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido o faltante"))
-                        .accessDeniedHandler((request, response, accessDeniedException) -> response
-                                .sendError(HttpServletResponse.SC_FORBIDDEN, "No tienes permisos")))
+    .authenticationEntryPoint((request, response, authException) -> {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"status\":\"fail\",\"message\":\"Acceso no autorizado\"}");
+    })
+    .accessDeniedHandler((request, response, accessDeniedException) -> {
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"status\":\"fail\",\"message\":\"No tienes permisos suficientes\"}");
+    })
+)
+
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
